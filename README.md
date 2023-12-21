@@ -10,6 +10,8 @@
 
 Esse projeto faz a simulação de um sistema de gerenciamento para um estacionamento de motos, se trata do desafio final da Academia DotNet ministrada pela `Universidade Franciscana - UFN`.
 
+Este repositório esta relacionando ao [Projeto Final Frontend](https://github.com/PauloAlves8039/academia-dotnet-projeto-final-frontend)
+
 ## :blue_book: Regra de Negócio
 
 ``Cadastro do Cliente``: 
@@ -49,7 +51,7 @@ Esse projeto faz a simulação de um sistema de gerenciamento para um estacionam
 git clone https://github.com/PauloAlves8039/academia-dotnet-projeto-final-backend.git
 ```
 
-## Conclusão:
+## Conclusão
 
 Essa aplicação tem como objetivo oferecer melhorias para o uso de um sistema voltado para uma empresa fictícia que atua com o gerenciamento de um estacionamento de motos, a ideia surgiu por conta de uma necessidade que ocorre em localidades que tenham dificuldades para achar um estacionamento organizado, seguro e que ofereça um serviço com qualidade. 
 
