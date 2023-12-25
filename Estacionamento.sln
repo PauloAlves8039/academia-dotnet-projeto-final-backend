@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A816AB68-7489-4F3C-AB55-FCD99CF58F07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estacionamento.WebAPI", "src\Estacionamento.WebAPI\Estacionamento.WebAPI.csproj", "{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estacionamento.WebAPI", "src\Estacionamento.WebAPI\Estacionamento.WebAPI.csproj", "{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estacionamento.Model", "src\Estacionamento.Model\Estacionamento.Model.csproj", "{504D9306-8188-40A6-8992-338A44A5343E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +19,17 @@ Global
 		{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504D9306-8188-40A6-8992-338A44A5343E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504D9306-8188-40A6-8992-338A44A5343E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504D9306-8188-40A6-8992-338A44A5343E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504D9306-8188-40A6-8992-338A44A5343E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{60E8BF9C-E7FD-467B-AB10-CFA25DFFB5FC} = {A816AB68-7489-4F3C-AB55-FCD99CF58F07}
+		{504D9306-8188-40A6-8992-338A44A5343E} = {A816AB68-7489-4F3C-AB55-FCD99CF58F07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3577551-CC93-4D54-868A-6A33214C0EAA}
