@@ -15,7 +15,7 @@
         public string Email { get; set; }
         public int? CodigoEndereco { get; set; }
 
-        public virtual Endereco CodigoEnderecoNavigation { get; set; }
+        public virtual Endereco Endereco { get; set; }
         public virtual ICollection<ClienteVeiculo> ClienteVeiculos { get; set; }
     }
 }
