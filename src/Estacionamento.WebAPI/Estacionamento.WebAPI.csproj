@@ -24,4 +24,8 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Estacionamento.Service\Estacionamento.Service.csproj" />
+  </ItemGroup>
+
 </Project>
