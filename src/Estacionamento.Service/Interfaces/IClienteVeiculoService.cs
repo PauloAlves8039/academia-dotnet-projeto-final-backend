@@ -4,12 +4,10 @@ namespace Estacionamento.Service.Interfaces
 {
     public interface IClienteVeiculoService
     {
-        Task<IEnumerable<ClienteVeiculoDto>> PesquisarListaDeClienteMoto();
+        Task<IEnumerable<ClienteVeiculoDto>> PesquisarItensClienteVeiculo();
 
-        Task<IEnumerable<ClienteVeiculoDto>> PesquisarItensClienteMoto();
+        Task<ClienteVeiculoDto> PesquisarClienteVeiculoPorCodigo(int codigo);
 
-        Task<ClienteVeiculoDto> PesquisarClienteMotoPorCodigo(int codigo);
-
-        Task<ClienteVeiculoDto> AdicionarClienteMoto(ClienteVeiculoDto clienteVeiculoDto);
+        Task<ClienteVeiculoDto> AdicionarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto);
     }
 }

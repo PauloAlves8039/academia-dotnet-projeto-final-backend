@@ -18,20 +18,6 @@ namespace Estacionamento.Data.Repositories
             _logger = logger;
         }
 
-        public async Task<IEnumerable<ClienteVeiculo>> ObterListaDeClienteVeiculo()
-        {
-            try
-            {
-                return await _contexto.ClienteVeiculos.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                _errorMessage = $"Erro ao buscar lista de clientes e veículos: {ex.Message}";
-                _logger.LogError(ex, _errorMessage);
-                throw;
-            }
-        }
-
         public async Task<IEnumerable<ClienteVeiculo>> ObterItensClienteVeiculo()
         {
             try

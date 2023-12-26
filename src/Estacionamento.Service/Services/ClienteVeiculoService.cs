@@ -17,25 +17,19 @@ namespace Estacionamento.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ClienteVeiculoDto>> PesquisarListaDeClienteMoto()
-        {
-            var clientesVeiculos = await _clienteVeiculoRepository.ObterListaDeClienteVeiculo();
-            return _mapper.Map<IEnumerable<ClienteVeiculoDto>>(clientesVeiculos);
-        }
-
-        public async Task<IEnumerable<ClienteVeiculoDto>> PesquisarItensClienteMoto()
+        public async Task<IEnumerable<ClienteVeiculoDto>> PesquisarItensClienteVeiculo()
         {
             var clientesVeiculos = await _clienteVeiculoRepository.ObterItensClienteVeiculo();
             return _mapper.Map<IEnumerable<ClienteVeiculoDto>>(clientesVeiculos);
         }
 
-        public async Task<ClienteVeiculoDto> PesquisarClienteMotoPorCodigo(int codigo)
+        public async Task<ClienteVeiculoDto> PesquisarClienteVeiculoPorCodigo(int codigo)
         {
             var clienteVeiculo = await _clienteVeiculoRepository.ObterClienteVeiculoPorCodigo(codigo);
             return _mapper.Map<ClienteVeiculoDto>(clienteVeiculo);
         }
 
-        public async Task<ClienteVeiculoDto> AdicionarClienteMoto(ClienteVeiculoDto clienteVeiculoDto)
+        public async Task<ClienteVeiculoDto> AdicionarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto)
         {
             var clienteVeiculo = _mapper.Map<ClienteVeiculo>(clienteVeiculoDto);
             await _clienteVeiculoRepository.CadastrarClienteVeiculo(clienteVeiculo);
