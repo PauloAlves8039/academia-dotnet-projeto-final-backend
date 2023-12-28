@@ -39,7 +39,7 @@ namespace Estacionamento.Data.Migrations
                     Modelo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     Cor = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                     Ano = table.Column<int>(type: "int", nullable: false),
-                    Observacoes = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
+                    Observacoes = table.Column<string>(type: "varchar(150)", unicode: false, maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,7 +66,8 @@ namespace Estacionamento.Data.Migrations
                         name: "FK__Clientes__Codigo__398D8EEE",
                         column: x => x.CodigoEndereco,
                         principalTable: "Enderecos",
-                        principalColumn: "CodigoEndereco");
+                        principalColumn: "CodigoEndereco",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

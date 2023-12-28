@@ -220,9 +220,9 @@ namespace Estacionamento.Data.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Observacoes")
-                        .HasMaxLength(100)
+                        .HasMaxLength(150)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("Tipo")
                         .HasMaxLength(20)
@@ -240,6 +240,7 @@ namespace Estacionamento.Data.Migrations
                     b.HasOne("Estacionamento.Model.Models.Endereco", "Endereco")
                         .WithMany("Clientes")
                         .HasForeignKey("CodigoEndereco")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK__Clientes__Codigo__398D8EEE");
 
                     b.Navigation("Endereco");

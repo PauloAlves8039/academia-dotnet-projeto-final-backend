@@ -58,7 +58,8 @@ namespace Estacionamento.Data.Context
                 entity.HasOne(d => d.Endereco)
                     .WithMany(p => p.Clientes)
                     .HasForeignKey(d => d.CodigoEndereco)
-                    .HasConstraintName("FK__Clientes__Codigo__398D8EEE");
+                    .HasConstraintName("FK__Clientes__Codigo__398D8EEE")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ClienteVeiculo>(entity =>
@@ -164,7 +165,7 @@ namespace Estacionamento.Data.Context
                     .IsUnicode(false);
 
                 entity.Property(e => e.Observacoes)
-                    .HasMaxLength(100)
+                    .HasMaxLength(150)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Tipo)
