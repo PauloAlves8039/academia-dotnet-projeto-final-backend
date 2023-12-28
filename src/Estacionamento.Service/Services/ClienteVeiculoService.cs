@@ -35,5 +35,24 @@ namespace Estacionamento.Service.Services
             await _clienteVeiculoRepository.CadastrarClienteVeiculo(clienteVeiculo);
             return clienteVeiculoDto;
         }
+
+        public async Task<ClienteVeiculoDto> AtualizarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto)
+        {
+            var clienteVeiculo = _mapper.Map<ClienteVeiculo>(clienteVeiculoDto);
+            await _clienteVeiculoRepository.AlterarClienteVeiculo(clienteVeiculo);
+            return clienteVeiculoDto;
+        }
+
+        public async Task RemoverClienteVeiculo(int codigo)
+        {
+            var clienteVeiculo = await _clienteVeiculoRepository.ObterClienteVeiculoPorCodigo(codigo);
+
+            if (clienteVeiculo == null)
+            {
+                throw new InvalidOperationException("Cliente e veículo associados não encontrado(a).");
+            }
+
+            await _clienteVeiculoRepository.ExcluirClienteVeiculo(codigo);
+        }
     }
 }

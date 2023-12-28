@@ -9,5 +9,9 @@ namespace Estacionamento.Service.Interfaces
         Task<ClienteVeiculoDto> PesquisarClienteVeiculoPorCodigo(int codigo);
 
         Task<ClienteVeiculoDto> AdicionarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto);
+
+        Task<ClienteVeiculoDto> AtualizarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto);
+
+        Task RemoverClienteVeiculo(int codigo);
     }
 }

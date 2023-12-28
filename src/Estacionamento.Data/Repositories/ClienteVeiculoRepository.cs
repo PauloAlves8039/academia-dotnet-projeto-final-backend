@@ -72,5 +72,51 @@ namespace Estacionamento.Data.Repositories
                 throw;
             }
         }
+
+        public async Task<ClienteVeiculo> AlterarClienteVeiculo(ClienteVeiculo clienteVeiculo)
+        {
+            try
+            {
+                var clienteVeiculoExistente = await _contexto.ClienteVeiculos
+                    .FirstOrDefaultAsync(cv => cv.CodigoClienteVeiculo == clienteVeiculo.CodigoClienteVeiculo);
+
+                if (clienteVeiculoExistente == null)
+                {
+                    throw new Exception($"Cliente e veículo associados com código {clienteVeiculo.CodigoClienteVeiculo} não encontrado");
+                }
+
+                _contexto.Entry(clienteVeiculoExistente).CurrentValues.SetValues(clienteVeiculo);
+
+                await _contexto.SaveChangesAsync();
+
+                return clienteVeiculoExistente;
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Erro ao atualizar cliente e veículo associados: {ex.Message}";
+                _logger.LogError(ex, _errorMessage);
+                throw;
+            }
+        }
+
+        public async Task ExcluirClienteVeiculo(int codigo)
+        {
+            try
+            {
+                var clienteVeiculo = await _contexto.ClienteVeiculos.FindAsync(codigo);
+
+                if (clienteVeiculo != null)
+                {
+                    _contexto.ClienteVeiculos.Remove(clienteVeiculo);
+                    await _contexto.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Erro ao excluir associção entre cliente e veículo associados: {ex.Message}";
+                _logger.LogError(ex, _errorMessage);
+                throw;
+            }
+        }
     }
 }

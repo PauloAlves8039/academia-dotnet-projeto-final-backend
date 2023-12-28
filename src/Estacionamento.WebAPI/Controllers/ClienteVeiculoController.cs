@@ -71,5 +71,49 @@ namespace Estacionamento.WebAPI.Controllers
                 return BadRequest($"Erro ao adicionar cliente veículo: {ex.Message}");
             }
         }
+
+        [HttpPut("{codigo}")]
+        public async Task<ActionResult<ClienteDto>> AtualizarClienteVeiculoExistente(int codigo, [FromBody] ClienteVeiculoDto clienteVeiculoDto)
+        {
+            try
+            {
+                if (codigo != clienteVeiculoDto.CodigoClienteVeiculo)
+                {
+                    return BadRequest($"O Código {codigo} do cliente e veículo associados na URL não corresponde!");
+                }
+
+                var clienteVeiculoExistente = await _clienteVeiculoService.PesquisarClienteVeiculoPorCodigo(codigo);
+
+                if (clienteVeiculoExistente == null)
+                {
+                    return NotFound($"Cliente e veículo associados com código {codigo} não encontrado");
+                }
+
+                _mapper.Map(clienteVeiculoDto, clienteVeiculoExistente);
+
+                var clienteVeiculoAtualizado = await _clienteVeiculoService.AtualizarClienteVeiculo(clienteVeiculoDto);
+
+                return Ok(clienteVeiculoAtualizado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao atualizar cliente e veículo associados: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{codigo}")]
+        public async Task<ActionResult> RemoverClienteVeiculoExistente(int codigo)
+        {
+            try
+            {
+                await _clienteVeiculoService.RemoverClienteVeiculo(codigo);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao remover cliente e veículo associados: {ex.Message}");
+            }
+        }
     }
 }

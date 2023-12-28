@@ -9,5 +9,9 @@ namespace Estacionamento.Data.Interfaces
         Task<ClienteVeiculo> ObterClienteVeiculoPorCodigo(int codigo);
 
         Task<ClienteVeiculo> CadastrarClienteVeiculo(ClienteVeiculo clienteVeiculo);
+
+        Task<ClienteVeiculo> AlterarClienteVeiculo(ClienteVeiculo clienteVeiculo);
+
+        Task ExcluirClienteVeiculo(int codigo);
     }
 }
