@@ -100,5 +100,20 @@ namespace Estacionamento.WebAPI.Controllers
                 return BadRequest($"Erro ao atualizar permanência: {ex.Message}");
             }
         }
+
+        [HttpDelete("{codigo}")]
+        public async Task<ActionResult> RemoverPermanenciaExistente(int codigo)
+        {
+            try
+            {
+                await _permanenciaService.RemoverPermanencia(codigo);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao remover permanência: {ex.Message}");
+            }
+        }
     }
 }

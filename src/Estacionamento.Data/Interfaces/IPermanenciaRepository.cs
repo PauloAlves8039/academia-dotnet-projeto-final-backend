@@ -11,5 +11,7 @@ namespace Estacionamento.Data.Interfaces
         Task<Permanencia> CadastrarPermanencia(Permanencia permanencia);
 
         Task<Permanencia> AlterarPermanencia(Permanencia permanencia);
+
+        Task ExcluirPermanencia(int codigo);
     }
 }

@@ -132,5 +132,25 @@ namespace Estacionamento.Data.Repositories
                 throw;
             }
         }
+
+        public async Task ExcluirPermanencia(int codigo)
+        {
+            try
+            {
+                var permanencia = await _contexto.Permanencias.FindAsync(codigo);
+
+                if (permanencia != null)
+                {
+                    _contexto.Permanencias.Remove(permanencia);
+                    await _contexto.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Erro ao excluir Permanência: {ex.Message}";
+                _logger.LogError(ex, _errorMessage);
+                throw;
+            }
+        }
     }
 }

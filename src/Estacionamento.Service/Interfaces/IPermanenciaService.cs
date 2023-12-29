@@ -11,5 +11,7 @@ namespace Estacionamento.Service.Interfaces
         Task<PermanenciaDto> AdicionarPermanencia(PermanenciaDto permanenciaDto);
 
         Task<PermanenciaDto> AtualizarPermanencia(PermanenciaDto permanenciaDto);
+
+        Task RemoverPermanencia(int codigo);
     }
 }

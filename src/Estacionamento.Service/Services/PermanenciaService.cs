@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Estacionamento.Data.Interfaces;
+using Estacionamento.Data.Repositories;
 using Estacionamento.Model.Models;
 using Estacionamento.Service.Dtos;
 using Estacionamento.Service.Interfaces;
@@ -60,6 +61,18 @@ namespace Estacionamento.Service.Services
             await AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Retirado");
 
             return permanenciaDto;
+        }
+
+        public async Task RemoverPermanencia(int codigo)
+        {
+            var permanencia = await _permanenciaRepository.ObterPermanenciaPorCodigo(codigo);
+
+            if (permanencia == null)
+            {
+                throw new InvalidOperationException("Permanência não encontrada.");
+            }
+
+            await _permanenciaRepository.ExcluirPermanencia(codigo);
         }
 
         private double CalcularQuantidadeHorasPermanencia(PermanenciaDto permanenciaDto)
