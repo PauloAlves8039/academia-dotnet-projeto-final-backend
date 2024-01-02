@@ -1,9 +1,11 @@
 ﻿using Estacionamento.Model.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estacionamento.Data.Context
 {
-    public partial class EstacionamentoContext : DbContext
+    public partial class EstacionamentoContext : IdentityDbContext
     {
         public EstacionamentoContext() { }
 
@@ -172,6 +174,12 @@ namespace Estacionamento.Data.Context
                     .HasMaxLength(20)
                     .IsUnicode(false);
             });
+
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins").HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens").HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(r => new { r.UserId, r.RoleId });
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
 
             OnModelCreatingPartial(modelBuilder);
         }
