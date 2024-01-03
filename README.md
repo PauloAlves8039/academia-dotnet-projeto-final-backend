@@ -30,11 +30,8 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 ``Emissão de Comprovante``:
 - Para clientes frequentes, o atendente pode abrir um novo controle de permanência sem a necessidade de um novo cadastro.
 
-``Cancelamento de Operação na Entrada``:
-- Se necessário, o cliente pode cancelar a operação na entrada no ato inicial do atendimento.
-
 ## :movie_camera: Vídeo de Demonstração
-- *Se encontra pendente, a gravação vai estar disponível em breve*.
+- Vídeo de demonstração [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU)
 
 ## ✔️ Recursos Utilizados
 
