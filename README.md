@@ -8,7 +8,7 @@
 
 ## :computer: Projeto
 
-Esse projeto faz a simulação de um sistema de gerenciamento para um estacionamento de motos, se trata do desafio final da Academia DotNet ministrada pela `Universidade Franciscana - UFN`.
+Esse projeto faz a simulação de um sistema de gerenciamento para um estacionamento de motos, se trata do desafio final da Academia .NET ministrada pela `Universidade Franciscana - UFN`.
 
 Este repositório esta relacionando ao [Projeto Final Frontend](https://github.com/PauloAlves8039/academia-dotnet-projeto-final-frontend)
 
@@ -31,16 +31,21 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 - Para clientes frequentes, o atendente pode abrir um novo controle de permanência sem a necessidade de um novo cadastro.
 
 ## :movie_camera: Vídeo de Demonstração
-- Vídeo de demonstração [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU)
 
+- Apresentação [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU)
+  
 ## ✔️ Recursos Utilizados
 
 - ``Arquitetura MVC``
 - ``.NET 6.0``
 - ``ASP.NET Core WebAPI``
 - ``C#``
-- ``SQL Server``
 - ``Entity Framework Core``
+- ``SQL Server``
+- ``AutoMapper``
+- ``Identity Framework Core``
+- ``JWT``
+- ``Swagger``
 
 ## :floppy_disk: Clonar Repositório
 
