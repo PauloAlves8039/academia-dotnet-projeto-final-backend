@@ -1,4 +1,5 @@
 ﻿using Estacionamento.Model.Models;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace Estacionamento.Service.Dtos
@@ -6,7 +7,11 @@ namespace Estacionamento.Service.Dtos
     public class ClienteVeiculoDto
     {
         public int CodigoClienteVeiculo { get; set; }
+
+        [DisplayName("Cliente")]
         public int? ClienteId { get; set; }
+
+        [DisplayName("Veículo")]
         public int? VeiculoId { get; set; }
 
         [JsonIgnore]
