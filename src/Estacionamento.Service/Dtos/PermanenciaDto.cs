@@ -13,9 +13,6 @@ namespace Estacionamento.Service.Dtos
         [DisplayName("Cliente e Veículo")]
         public int? ClienteVeiculoId { get; set; }
 
-        [Required(ErrorMessage = "A Placa é obrigatória")]
-        [MinLength(7)]
-        [MaxLength(10)]
         [DisplayName("Placa")]
         public string Placa { get; set; }
 
@@ -25,22 +22,12 @@ namespace Estacionamento.Service.Dtos
         [DisplayName("Data de Saída")]
         public DateTime? DataSaida { get; set; }
 
-        [Required(ErrorMessage = "A Taxa Por Hora é obrigatória")]
-        [Column(TypeName = "decimal(18,2)")]
-        [DisplayFormat(DataFormatString = "{0:C2}")]
-        [DataType(DataType.Currency)]
         [DisplayName("Taxa Por Hora")]
         public decimal TaxaPorHora { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        [DisplayFormat(DataFormatString = "{0:C2}")]
-        [DataType(DataType.Currency)]
         [DisplayName("Valor Total")]
         public decimal? ValorTotal { get; set; }
 
-        [Required(ErrorMessage = "O Estado da Permanência é obrigatório")]
-        [MinLength(7)]
-        [MaxLength(10)]
         [DisplayName("Estado da Permanência")]
         public string EstadoPermanencia { get; set; }
 
