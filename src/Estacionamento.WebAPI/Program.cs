@@ -113,13 +113,13 @@ namespace Estacionamento.WebAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowAny");
+
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseCors("AllowAny");
 
             app.MapControllers();
 

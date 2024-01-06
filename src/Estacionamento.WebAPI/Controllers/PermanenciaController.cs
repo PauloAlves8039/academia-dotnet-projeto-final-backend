@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.WebAPI.Controllers
 {
-    // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class PermanenciaController : ControllerBase

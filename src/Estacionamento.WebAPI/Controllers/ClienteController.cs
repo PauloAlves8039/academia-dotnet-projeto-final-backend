@@ -2,11 +2,12 @@
 using Estacionamento.Service.Dtos;
 using Estacionamento.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.WebAPI.Controllers
 {
-    // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClienteController : ControllerBase
