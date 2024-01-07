@@ -2,16 +2,5 @@
 
 namespace Estacionamento.Data.Interfaces
 {
-    public interface IPermanenciaRepository
-    {
-        Task<IEnumerable<Permanencia>> ObterListaDePermanencias();
-
-        Task<Permanencia> ObterPermanenciaPorCodigo(int codigo);
-
-        Task<Permanencia> CadastrarPermanencia(Permanencia permanencia);
-
-        Task<Permanencia> AlterarPermanencia(Permanencia permanencia);
-
-        Task ExcluirPermanencia(int codigo);
-    }
+    public interface IPermanenciaRepository : IRepository<Permanencia> { }
 }

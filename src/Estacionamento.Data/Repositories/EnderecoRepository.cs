@@ -6,19 +6,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Estacionamento.Data.Repositories
 {
-    public class EnderecoRepository : IEnderecoRepository
+    public class EnderecoRepository : BaseRepository<Endereco>, IEnderecoRepository
     {
-        private readonly EstacionamentoContext _contexto;
         private readonly ILogger<EnderecoRepository> _logger;
         private string _errorMessage = "";
 
-        public EnderecoRepository(EstacionamentoContext contexto, ILogger<EnderecoRepository> logger)
+        public EnderecoRepository(EstacionamentoContext contexto, ILogger<EnderecoRepository> logger) : base(contexto)
         {
-            _contexto = contexto;
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Endereco>> ObterListaDeEnderecos()
+        public override async Task<IEnumerable<Endereco>> GetAll()
         {
             try
             {
@@ -32,11 +30,11 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<Endereco> ObterEnderecoPorCodigo(int codigo)
+        public override async Task<Endereco> GetById(int id)
         {
             try
             {
-                return await _contexto.Enderecos.FirstOrDefaultAsync(e => e.CodigoEndereco == codigo);
+                return await _contexto.Enderecos.FirstOrDefaultAsync(e => e.CodigoEndereco == id);
             }
             catch (Exception ex)
             {
@@ -46,35 +44,35 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<Endereco> CadastrarEndereco(Endereco endereco)
+        public override async Task<Endereco> Add(Endereco entity)
         {
             try
             {
-                _contexto.Enderecos.Add(endereco);
+                _contexto.Enderecos.Add(entity);
                 await _contexto.SaveChangesAsync();
-                return endereco;
+                return entity;
             }
             catch (Exception ex)
             {
-                _errorMessage = $"Erro ao cadastrar endereço: {ex.Message}";
+                _errorMessage = $"Erro ao adicionar endereço: {ex.Message}";
                 _logger.LogError(ex, _errorMessage);
                 throw;
             }
         }
 
-        public async Task<Endereco> AlterarEndereco(Endereco endereco)
+        public override async Task<Endereco> Update(Endereco entity)
         {
             try
             {
                 var enderecoExistente = await _contexto.Enderecos
-                    .FirstOrDefaultAsync(e => e.CodigoEndereco == endereco.CodigoEndereco);
+                    .FirstOrDefaultAsync(e => e.CodigoEndereco == entity.CodigoEndereco);
 
                 if (enderecoExistente == null)
                 {
-                    throw new Exception($"Endereço com código {endereco.CodigoEndereco} não encontrado");
+                    throw new Exception($"Endereço com código {entity.CodigoEndereco} não encontrado");
                 }
 
-                _contexto.Entry(enderecoExistente).CurrentValues.SetValues(endereco);
+                _contexto.Entry(enderecoExistente).CurrentValues.SetValues(entity);
 
                 await _contexto.SaveChangesAsync();
 
@@ -88,11 +86,11 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task ExcluirEndereco(int codigo)
+        public override async Task Delete(int id)
         {
             try
             {
-                var endereco = await _contexto.Enderecos.FindAsync(codigo);
+                var endereco = await _contexto.Enderecos.FindAsync(id);
 
                 if (endereco != null)
                 {

@@ -19,40 +19,40 @@ namespace Estacionamento.Service.Services
 
         public async Task<IEnumerable<ClienteDto>> PesquisarListaDeClientes()
         {
-            var clientes = await _clienteRepository.ObterListaDeClientes();
+            var clientes = await _clienteRepository.GetAll();
             return _mapper.Map<IEnumerable<ClienteDto>>(clientes);
         }
 
         public async Task<ClienteDto> PesquisarClientePorCodigo(int codigo)
         {
-            var cliente = await _clienteRepository.ObterClientePorCodigo(codigo);
+            var cliente = await _clienteRepository.GetById(codigo);
             return _mapper.Map<ClienteDto>(cliente);
         }
 
         public async Task<ClienteDto> AdicionarCliente(ClienteDto clienteDto)
         {
             var cliente = _mapper.Map<Cliente>(clienteDto);
-            await _clienteRepository.CadastrarCliente(cliente);
+            await _clienteRepository.Add(cliente);
             return clienteDto;
         }
 
         public async Task<ClienteDto> AtualizarCliente(ClienteDto clienteDto)
         {
             var cliente = _mapper.Map<Cliente>(clienteDto);
-            await _clienteRepository.AlterarCliente(cliente);
+            await _clienteRepository.Update(cliente);
             return clienteDto;
         }
 
         public async Task RemoverCliente(int codigo)
         {
-            var cliente = await _clienteRepository.ObterClientePorCodigo(codigo);
+            var cliente = await _clienteRepository.GetById(codigo);
 
             if (cliente == null)
             {
                 throw new InvalidOperationException("Cliente não encontrado(a).");
             }
 
-            await _clienteRepository.ExcluirCliente(codigo);
+            await _clienteRepository.Delete(codigo);
         }
     }
 }

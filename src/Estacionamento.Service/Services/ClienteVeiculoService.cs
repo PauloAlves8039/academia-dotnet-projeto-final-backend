@@ -19,40 +19,40 @@ namespace Estacionamento.Service.Services
 
         public async Task<IEnumerable<ClienteVeiculoDto>> PesquisarItensClienteVeiculo()
         {
-            var clientesVeiculos = await _clienteVeiculoRepository.ObterItensClienteVeiculo();
+            var clientesVeiculos = await _clienteVeiculoRepository.GetAll();
             return _mapper.Map<IEnumerable<ClienteVeiculoDto>>(clientesVeiculos);
         }
 
         public async Task<ClienteVeiculoDto> PesquisarClienteVeiculoPorCodigo(int codigo)
         {
-            var clienteVeiculo = await _clienteVeiculoRepository.ObterClienteVeiculoPorCodigo(codigo);
+            var clienteVeiculo = await _clienteVeiculoRepository.GetById(codigo);
             return _mapper.Map<ClienteVeiculoDto>(clienteVeiculo);
         }
 
         public async Task<ClienteVeiculoDto> AdicionarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto)
         {
             var clienteVeiculo = _mapper.Map<ClienteVeiculo>(clienteVeiculoDto);
-            await _clienteVeiculoRepository.CadastrarClienteVeiculo(clienteVeiculo);
+            await _clienteVeiculoRepository.Add(clienteVeiculo);
             return clienteVeiculoDto;
         }
 
         public async Task<ClienteVeiculoDto> AtualizarClienteVeiculo(ClienteVeiculoDto clienteVeiculoDto)
         {
             var clienteVeiculo = _mapper.Map<ClienteVeiculo>(clienteVeiculoDto);
-            await _clienteVeiculoRepository.AlterarClienteVeiculo(clienteVeiculo);
+            await _clienteVeiculoRepository.Update(clienteVeiculo);
             return clienteVeiculoDto;
         }
 
         public async Task RemoverClienteVeiculo(int codigo)
         {
-            var clienteVeiculo = await _clienteVeiculoRepository.ObterClienteVeiculoPorCodigo(codigo);
+            var clienteVeiculo = await _clienteVeiculoRepository.GetById(codigo);
 
             if (clienteVeiculo == null)
             {
                 throw new InvalidOperationException("Cliente e veículo associados não encontrado(a).");
             }
 
-            await _clienteVeiculoRepository.ExcluirClienteVeiculo(codigo);
+            await _clienteVeiculoRepository.Delete(codigo);
         }
     }
 }

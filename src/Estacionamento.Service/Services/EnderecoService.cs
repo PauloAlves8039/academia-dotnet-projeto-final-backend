@@ -19,40 +19,40 @@ namespace Estacionamento.Service.Services
 
         public async Task<IEnumerable<EnderecoDto>> PesquisarListaDeEnderecos()
         {
-            var enderecos = await _enderecoRepository.ObterListaDeEnderecos();
+            var enderecos = await _enderecoRepository.GetAll();
             return _mapper.Map<IEnumerable<EnderecoDto>>(enderecos);
         }
 
         public async Task<EnderecoDto> PesquisarEnderecoPorCodigo(int codigo)
         {
-            var endereco = await _enderecoRepository.ObterEnderecoPorCodigo(codigo);
+            var endereco = await _enderecoRepository.GetById(codigo);
             return _mapper.Map<EnderecoDto>(endereco);
         }
 
         public async Task<EnderecoDto> AdicionarEndereco(EnderecoDto enderecoDto)
         {
             var endereco = _mapper.Map<Endereco>(enderecoDto);
-            await _enderecoRepository.CadastrarEndereco(endereco);
+            await _enderecoRepository.Add(endereco);
             return enderecoDto;
         }
 
         public async Task<EnderecoDto> AltualizarEndereco(EnderecoDto enderecoDto)
         {
             var endereco = _mapper.Map<Endereco>(enderecoDto);
-            await _enderecoRepository.AlterarEndereco(endereco);
+            await _enderecoRepository.Update(endereco);
             return enderecoDto;
         }
 
         public async Task RemoverEndereco(int codigo)
         {
-            var endereco = await _enderecoRepository.ObterEnderecoPorCodigo(codigo);
+            var endereco = await _enderecoRepository.GetById(codigo);
 
             if (endereco == null)
             {
                 throw new InvalidOperationException("Endereço não encontrado.");
             }
 
-            await _enderecoRepository.ExcluirEndereco(codigo);
+            await _enderecoRepository.Delete(codigo);
         }
     }
 }

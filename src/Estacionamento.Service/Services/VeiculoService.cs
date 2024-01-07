@@ -19,40 +19,40 @@ namespace Estacionamento.Service.Services
 
         public async Task<IEnumerable<VeiculoDto>> PesquisarListaDeVeiculos()
         {
-            var veiculos = await _veiculoRepository.ObterListaDeVeiculos();
+            var veiculos = await _veiculoRepository.GetAll();
             return _mapper.Map<IEnumerable<VeiculoDto>>(veiculos);
         }
 
         public async Task<VeiculoDto> PesquisarVeiculoPorCodigo(int codigo)
         {
-            var veiculo = await _veiculoRepository.ObterVeiculoPorCodigo(codigo);
+            var veiculo = await _veiculoRepository.GetById(codigo);
             return _mapper.Map<VeiculoDto>(veiculo);
         }
 
         public async Task<VeiculoDto> AdicionarVeiculo(VeiculoDto veiculoDto)
         {
             var veiculo = _mapper.Map<Veiculo>(veiculoDto);
-            await _veiculoRepository.CadastrarVeiculo(veiculo);
+            await _veiculoRepository.Add(veiculo);
             return veiculoDto;
         }
 
         public async Task<VeiculoDto> AtualizarVeiculo(VeiculoDto veiculoDto)
         {
             var veiculo = _mapper.Map<Veiculo>(veiculoDto);
-            await _veiculoRepository.AlterarVeiculo(veiculo);
+            await _veiculoRepository.Update(veiculo);
             return veiculoDto;
         }
 
         public async Task RemoverVeiculo(int codigo)
         {
-            var veiculo = await _veiculoRepository.ObterVeiculoPorCodigo(codigo);
+            var veiculo = await _veiculoRepository.GetById(codigo);
 
             if (veiculo == null) 
             {
                 throw new InvalidOperationException("Veículo não encontrado.");
             }
 
-            await _veiculoRepository.ExcluirVeiculo(codigo);
+            await _veiculoRepository.Delete(codigo);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Estacionamento.Data.Interfaces;
-using Estacionamento.Data.Repositories;
 using Estacionamento.Model.Models;
 using Estacionamento.Service.Dtos;
 using Estacionamento.Service.Interfaces;
@@ -20,13 +19,13 @@ namespace Estacionamento.Service.Services
 
         public async Task<IEnumerable<PermanenciaDto>> PesquisarListaDePermanencias()
         {
-            var permanencias = await _permanenciaRepository.ObterListaDePermanencias();
+            var permanencias = await _permanenciaRepository.GetAll();
             return _mapper.Map<IEnumerable<PermanenciaDto>>(permanencias);
         }
 
         public async Task<PermanenciaDto> PesquisarPermanenciaPorCodigo(int codigo)
         {
-            var permanencia = await _permanenciaRepository.ObterPermanenciaPorCodigo(codigo);
+            var permanencia = await _permanenciaRepository.GetById(codigo);
             return _mapper.Map<PermanenciaDto>(permanencia);
         }
 
@@ -36,7 +35,7 @@ namespace Estacionamento.Service.Services
 
             permanencia.TaxaPorHora = 3.00m;
 
-            await _permanenciaRepository.CadastrarPermanencia(permanencia);
+            await _permanenciaRepository.Add(permanencia);
 
             await AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Estacionado");
 
@@ -56,7 +55,7 @@ namespace Estacionamento.Service.Services
             permanencia.TaxaPorHora = 3.00m;
             permanencia.ValorTotal = valorTotal;
 
-            await _permanenciaRepository.AlterarPermanencia(permanencia);
+            await _permanenciaRepository.Update(permanencia);
 
             await AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Retirado");
 
@@ -65,14 +64,14 @@ namespace Estacionamento.Service.Services
 
         public async Task RemoverPermanencia(int codigo)
         {
-            var permanencia = await _permanenciaRepository.ObterPermanenciaPorCodigo(codigo);
+            var permanencia = await _permanenciaRepository.GetById(codigo);
 
             if (permanencia == null)
             {
                 throw new InvalidOperationException("Permanência não encontrada.");
             }
 
-            await _permanenciaRepository.ExcluirPermanencia(codigo);
+            await _permanenciaRepository.Delete(codigo);
         }
 
         private double CalcularQuantidadeHorasPermanencia(PermanenciaDto permanenciaDto)
@@ -88,12 +87,12 @@ namespace Estacionamento.Service.Services
 
         private async Task AtualizarEstadoPermanencia(int codigoPermanencia, string novoEstado)
         {
-            var permanenciaExistente = await _permanenciaRepository.ObterPermanenciaPorCodigo(codigoPermanencia);
+            var permanenciaExistente = await _permanenciaRepository.GetById(codigoPermanencia);
 
             if (permanenciaExistente != null)
             {
                 permanenciaExistente.EstadoPermanencia = novoEstado;
-                await _permanenciaRepository.AlterarPermanencia(permanenciaExistente);
+                await _permanenciaRepository.Update(permanenciaExistente);
             }
         }
 

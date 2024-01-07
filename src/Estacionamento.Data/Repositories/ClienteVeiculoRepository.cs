@@ -6,19 +6,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Estacionamento.Data.Repositories
 {
-    public class ClienteVeiculoRepository : IClienteVeiculoRepository
+    public class ClienteVeiculoRepository : BaseRepository<ClienteVeiculo>, IClienteVeiculoRepository
     {
-        private readonly EstacionamentoContext _contexto;
         private readonly ILogger<ClienteVeiculoRepository> _logger;
         private string _errorMessage = "";
 
-        public ClienteVeiculoRepository(EstacionamentoContext contexto, ILogger<ClienteVeiculoRepository> logger)
+        public ClienteVeiculoRepository(EstacionamentoContext contexto, ILogger<ClienteVeiculoRepository> logger) : base(contexto)
         {
-            _contexto = contexto;
             _logger = logger;
         }
 
-        public async Task<IEnumerable<ClienteVeiculo>> ObterItensClienteVeiculo()
+        public override async Task<IEnumerable<ClienteVeiculo>> GetAll()
         {
             try
             {
@@ -43,11 +41,11 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<ClienteVeiculo> ObterClienteVeiculoPorCodigo(int codigo)
+        public override async Task<ClienteVeiculo> GetById(int id)
         {
             try
             {
-                return await _contexto.ClienteVeiculos.FirstOrDefaultAsync(cv => cv.CodigoClienteVeiculo == codigo);
+                return await _contexto.ClienteVeiculos.FirstOrDefaultAsync(cv => cv.CodigoClienteVeiculo == id);
             }
             catch (Exception ex)
             {
@@ -57,13 +55,13 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<ClienteVeiculo> CadastrarClienteVeiculo(ClienteVeiculo clienteVeiculo)
+        public override async Task<ClienteVeiculo> Add(ClienteVeiculo entity)
         {
             try
             {
-                _contexto.ClienteVeiculos.Add(clienteVeiculo);
+                _contexto.ClienteVeiculos.Add(entity);
                 await _contexto.SaveChangesAsync();
-                return clienteVeiculo;
+                return entity;
             }
             catch (Exception ex)
             {
@@ -73,19 +71,19 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<ClienteVeiculo> AlterarClienteVeiculo(ClienteVeiculo clienteVeiculo)
+        public override async Task<ClienteVeiculo> Update(ClienteVeiculo entity)
         {
             try
             {
                 var clienteVeiculoExistente = await _contexto.ClienteVeiculos
-                    .FirstOrDefaultAsync(cv => cv.CodigoClienteVeiculo == clienteVeiculo.CodigoClienteVeiculo);
+                    .FirstOrDefaultAsync(cv => cv.CodigoClienteVeiculo == entity.CodigoClienteVeiculo);
 
                 if (clienteVeiculoExistente == null)
                 {
-                    throw new Exception($"Cliente e veículo associados com código {clienteVeiculo.CodigoClienteVeiculo} não encontrado");
+                    throw new Exception($"Cliente e veículo associados com código {entity.CodigoClienteVeiculo} não encontrado");
                 }
 
-                _contexto.Entry(clienteVeiculoExistente).CurrentValues.SetValues(clienteVeiculo);
+                _contexto.Entry(clienteVeiculoExistente).CurrentValues.SetValues(entity);
 
                 await _contexto.SaveChangesAsync();
 
@@ -99,11 +97,11 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task ExcluirClienteVeiculo(int codigo)
+        public override async Task Delete(int id)
         {
             try
             {
-                var clienteVeiculo = await _contexto.ClienteVeiculos.FindAsync(codigo);
+                var clienteVeiculo = await _contexto.ClienteVeiculos.FindAsync(id);
 
                 if (clienteVeiculo != null)
                 {
@@ -113,7 +111,7 @@ namespace Estacionamento.Data.Repositories
             }
             catch (Exception ex)
             {
-                _errorMessage = $"Erro ao excluir associção entre cliente e veículo associados: {ex.Message}";
+                _errorMessage = $"Erro ao excluir associção entre cliente e veículo: {ex.Message}";
                 _logger.LogError(ex, _errorMessage);
                 throw;
             }

@@ -7,19 +7,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Estacionamento.Data.Repositories
 {
-    public class VeiculoRepository : IVeiculoRepository
+    public class VeiculoRepository : BaseRepository<Veiculo>, IVeiculoRepository
     {
-        private readonly EstacionamentoContext _contexto;
         private readonly ILogger<VeiculoRepository> _logger;
         private string _errorMessage = "";
 
-        public VeiculoRepository(EstacionamentoContext contexto, ILogger<VeiculoRepository> logger)
+        public VeiculoRepository(EstacionamentoContext context, ILogger<VeiculoRepository> logger) : base(context)
         {
-            _contexto = contexto;
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Veiculo>> ObterListaDeVeiculos()
+        public override async Task<IEnumerable<Veiculo>> GetAll()
         {
             try
             {
@@ -33,11 +31,11 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<Veiculo> ObterVeiculoPorCodigo(int codigo)
+        public override async Task<Veiculo> GetById(int id)
         {
             try
             {
-                return await _contexto.Veiculos.FirstOrDefaultAsync(v => v.CodigoVeiculo == codigo);
+                return await _contexto.Veiculos.FirstOrDefaultAsync(v => v.CodigoVeiculo == id);
             }
             catch (Exception ex)
             {
@@ -47,13 +45,13 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<Veiculo> CadastrarVeiculo(Veiculo veiculo)
+        public override async Task<Veiculo> Add(Veiculo entity)
         {
             try
             {
-                _contexto.Veiculos.Add(veiculo);
+                _contexto.Veiculos.Add(entity);
                 await _contexto.SaveChangesAsync();
-                return veiculo;
+                return entity;
             }
             catch (Exception ex)
             {
@@ -63,28 +61,28 @@ namespace Estacionamento.Data.Repositories
             }
         }
 
-        public async Task<Veiculo> AlterarVeiculo(Veiculo veiculo)
+        public override async Task<Veiculo> Update(Veiculo entity)
         {
             var veiculoExistente = await _contexto.Veiculos
-                    .FirstOrDefaultAsync(v => v.CodigoVeiculo == veiculo.CodigoVeiculo);
+                    .FirstOrDefaultAsync(v => v.CodigoVeiculo == entity.CodigoVeiculo);
 
             if (veiculoExistente == null)
             {
-                throw new Exception($"Veículo com código {veiculo.CodigoVeiculo} não encontrado");
+                throw new Exception($"Veículo com código {entity.CodigoVeiculo} não encontrado");
             }
 
-            _contexto.Entry(veiculoExistente).CurrentValues.SetValues(veiculo);
+            _contexto.Entry(veiculoExistente).CurrentValues.SetValues(entity);
 
             await _contexto.SaveChangesAsync();
 
             return veiculoExistente;
         }
 
-        public async Task ExcluirVeiculo(int codigo)
+        public override async Task Delete(int id)
         {
             try
             {
-                var veiculo = await _contexto.Veiculos.FindAsync(codigo);
+                var veiculo = await _contexto.Veiculos.FindAsync(id);
 
                 if (veiculo != null)
                 {
