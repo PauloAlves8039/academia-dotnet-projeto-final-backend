@@ -104,6 +104,7 @@ namespace Estacionamento.WebAPI.Controllers
         }
 
         [HttpDelete("{codigo}")]
+        [Authorize(Policy = "DeletePermission")]
         public async Task<ActionResult> RemoverEndereçoExistente(int codigo)
         {
             try

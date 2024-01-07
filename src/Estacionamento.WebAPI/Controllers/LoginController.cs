@@ -76,12 +76,17 @@ namespace Estacionamento.WebAPI.Controllers
 
         private UsuarioToken GerarToken(string email)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, email),
                 new Claim("meuPC", "teclado"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            if (email == "admin@localhost")
+            {
+                claims.Add(new Claim("DeletePermission", "true"));
+            }
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));

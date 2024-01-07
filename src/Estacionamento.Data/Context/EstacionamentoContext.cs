@@ -72,12 +72,14 @@ namespace Estacionamento.Data.Context
                 entity.HasOne(d => d.Cliente)
                     .WithMany(p => p.ClienteVeiculos)
                     .HasForeignKey(d => d.ClienteId)
-                    .HasConstraintName("FK__ClienteVe__Clien__3F466844");
+                    .HasConstraintName("FK__ClienteVe__Clien__3F466844")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.Veiculo)
                     .WithMany(p => p.ClienteVeiculos)
                     .HasForeignKey(d => d.VeiculoId)
-                    .HasConstraintName("FK__ClienteVe__Veicu__403A8C7D");
+                    .HasConstraintName("FK__ClienteVe__Veicu__403A8C7D")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Endereco>(entity =>
@@ -145,7 +147,8 @@ namespace Estacionamento.Data.Context
                 entity.HasOne(d => d.ClienteVeiculo)
                     .WithMany(p => p.Permanencia)
                     .HasForeignKey(d => d.ClienteVeiculoId)
-                    .HasConstraintName("FK__Permanenc__Clien__440B1D61");
+                    .HasConstraintName("FK__Permanenc__Clien__440B1D61")
+                    .OnDelete(DeleteBehavior.Cascade); 
             });
 
             modelBuilder.Entity<Veiculo>(entity =>

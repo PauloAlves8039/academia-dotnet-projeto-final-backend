@@ -105,6 +105,14 @@ namespace Estacionamento.WebAPI
                 });
             });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeletePermission", policy =>
+                {
+                    policy.RequireClaim("DeletePermission", "true");
+                });
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
