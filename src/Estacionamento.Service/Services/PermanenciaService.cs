@@ -33,7 +33,12 @@ namespace Estacionamento.Service.Services
         {
             var permanencia = _mapper.Map<Permanencia>(permanenciaDto);
 
-            permanencia.TaxaPorHora = 3.00m;
+            if (permanenciaDto.TaxaPorHora <= 0)
+            {
+                throw new ArgumentException("A taxa por hora deve ser maior que zero ao adicionar uma permanência.");
+            }
+
+            permanencia.TaxaPorHora = permanenciaDto.TaxaPorHora;
 
             await _permanenciaRepository.Add(permanencia);
 
@@ -48,11 +53,10 @@ namespace Estacionamento.Service.Services
 
             double quantidadeHoras = CalcularQuantidadeHorasPermanencia(permanenciaDto);
 
-            decimal valorTotal = CalcularValorTotal(quantidadeHoras);
+            decimal valorTotal = CalcularValorTotal(quantidadeHoras, permanenciaDto.TaxaPorHora);
 
             var permanencia = _mapper.Map<Permanencia>(permanenciaDto);
 
-            permanencia.TaxaPorHora = 3.00m;
             permanencia.ValorTotal = valorTotal;
 
             await _permanenciaRepository.Update(permanencia);
@@ -96,13 +100,12 @@ namespace Estacionamento.Service.Services
             }
         }
 
-        private decimal CalcularValorTotal(double quantidadeHoras)
+        private decimal CalcularValorTotal(double quantidadeHoras, decimal taxaPorHora)
         {
-            decimal taxaPorHora = 3.00m;
-
             decimal valorTotal = (decimal)quantidadeHoras * taxaPorHora;
 
             return valorTotal;
         }
+
     }
 }
