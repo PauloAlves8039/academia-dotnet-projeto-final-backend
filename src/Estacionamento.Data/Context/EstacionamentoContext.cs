@@ -7,8 +7,6 @@ namespace Estacionamento.Data.Context
 {
     public partial class EstacionamentoContext : IdentityDbContext
     {
-        public EstacionamentoContext() { }
-
         public EstacionamentoContext(DbContextOptions<EstacionamentoContext> options) : base(options) { }
 
         public virtual DbSet<Cliente> Clientes { get; set; }
@@ -17,15 +15,26 @@ namespace Estacionamento.Data.Context
         public virtual DbSet<Permanencia> Permanencias { get; set; }
         public virtual DbSet<Veiculo> Veiculos { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Estacionamento;Persist Security Info=True;User ID=sa;Password=*********");
-            }
+            ConfigurarPropriedadesDoCliente(modelBuilder);
+            ConfigurarPropriedadesDoEndereco(modelBuilder);
+            ConfigurarPropriedadesDoVeiculo(modelBuilder);
+            ConfigurarPropriedadesDoClienteVeiculo(modelBuilder);
+            ConfigurarPropriedadesDaPermanencia(modelBuilder);
+
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins").HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens").HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(r => new { r.UserId, r.RoleId });
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        private void ConfigurarPropriedadesDoCliente(ModelBuilder modelBuilder) 
         {
             modelBuilder.Entity<Cliente>(entity =>
             {
@@ -60,28 +69,12 @@ namespace Estacionamento.Data.Context
                 entity.HasOne(d => d.Endereco)
                     .WithMany(p => p.Clientes)
                     .HasForeignKey(d => d.CodigoEndereco)
-                    .HasConstraintName("FK__Clientes__Codigo__398D8EEE")
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasConstraintName("FK__Clientes__Codigo__398D8EEE");
             });
+        }
 
-            modelBuilder.Entity<ClienteVeiculo>(entity =>
-            {
-                entity.HasKey(e => e.CodigoClienteVeiculo)
-                    .HasName("PK__ClienteV__67D54C7981DF8910");
-
-                entity.HasOne(d => d.Cliente)
-                    .WithMany(p => p.ClienteVeiculos)
-                    .HasForeignKey(d => d.ClienteId)
-                    .HasConstraintName("FK__ClienteVe__Clien__3F466844")
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(d => d.Veiculo)
-                    .WithMany(p => p.ClienteVeiculos)
-                    .HasForeignKey(d => d.VeiculoId)
-                    .HasConstraintName("FK__ClienteVe__Veicu__403A8C7D")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
+        private void ConfigurarPropriedadesDoEndereco(ModelBuilder modelBuilder) 
+        {
             modelBuilder.Entity<Endereco>(entity =>
             {
                 entity.HasKey(e => e.CodigoEndereco)
@@ -121,36 +114,10 @@ namespace Estacionamento.Data.Context
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
+        }
 
-            modelBuilder.Entity<Permanencia>(entity =>
-            {
-                entity.HasKey(e => e.CodigoPermanencia)
-                    .HasName("PK__Permanen__089416FDE4EF7B8B");
-
-                entity.Property(e => e.DataEntrada).HasColumnType("datetime");
-
-                entity.Property(e => e.DataSaida).HasColumnType("datetime");
-
-                entity.Property(e => e.EstadoPermanencia)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Placa)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.TaxaPorHora).HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.ValorTotal).HasColumnType("decimal(10, 2)");
-
-                entity.HasOne(d => d.ClienteVeiculo)
-                    .WithMany(p => p.Permanencia)
-                    .HasForeignKey(d => d.ClienteVeiculoId)
-                    .HasConstraintName("FK__Permanenc__Clien__440B1D61")
-                    .OnDelete(DeleteBehavior.Cascade); 
-            });
-
+        private void ConfigurarPropriedadesDoVeiculo(ModelBuilder modelBuilder) 
+        {
             modelBuilder.Entity<Veiculo>(entity =>
             {
                 entity.HasKey(e => e.CodigoVeiculo)
@@ -177,16 +144,56 @@ namespace Estacionamento.Data.Context
                     .HasMaxLength(20)
                     .IsUnicode(false);
             });
-
-            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins").HasKey(l => new { l.LoginProvider, l.ProviderKey });
-            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens").HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
-            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles").HasKey(r => new { r.UserId, r.RoleId });
-            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-
-            OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        private void ConfigurarPropriedadesDoClienteVeiculo(ModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<ClienteVeiculo>(entity =>
+            {
+                entity.HasKey(e => e.CodigoClienteVeiculo)
+                    .HasName("PK__ClienteV__67D54C7981DF8910");
+
+                entity.HasOne(d => d.Cliente)
+                    .WithMany(p => p.ClienteVeiculos)
+                    .HasForeignKey(d => d.ClienteId)
+                    .HasConstraintName("FK__ClienteVe__Clien__3F466844");
+
+                entity.HasOne(d => d.Veiculo)
+                    .WithMany(p => p.ClienteVeiculos)
+                    .HasForeignKey(d => d.VeiculoId)
+                    .HasConstraintName("FK__ClienteVe__Veicu__403A8C7D");
+            });
+        }
+
+        private void ConfigurarPropriedadesDaPermanencia(ModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<Permanencia>(entity =>
+            {
+                entity.HasKey(e => e.CodigoPermanencia)
+                    .HasName("PK__Permanen__089416FDE4EF7B8B");
+
+                entity.Property(e => e.DataEntrada).HasColumnType("datetime");
+
+                entity.Property(e => e.DataSaida).HasColumnType("datetime");
+
+                entity.Property(e => e.EstadoPermanencia)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Placa)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TaxaPorHora).HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.ValorTotal).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.ClienteVeiculo)
+                    .WithMany(p => p.Permanencia)
+                    .HasForeignKey(d => d.ClienteVeiculoId)
+                    .HasConstraintName("FK__Permanenc__Clien__440B1D61");
+            });
+        }
     }
 }
