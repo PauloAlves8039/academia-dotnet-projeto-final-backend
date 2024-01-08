@@ -1,10 +1,7 @@
 ﻿using Estacionamento.Service.Dtos.Account;
+using Estacionamento.Service.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Estacionamento.WebAPI.Controllers
 {
@@ -14,15 +11,15 @@ namespace Estacionamento.WebAPI.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenService _tokenService;
 
         public LoginController(UserManager<IdentityUser> userManager, 
-                                  SignInManager<IdentityUser> signInManager, 
-                                  IConfiguration configuration)
+                                  SignInManager<IdentityUser> signInManager,  
+                                  ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
+            _tokenService = tokenService;
         }
 
         [HttpPost("registrar")]
@@ -65,7 +62,8 @@ namespace Estacionamento.WebAPI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(GerarToken(usuarioDto.Email));
+                UsuarioToken token = _tokenService.GerarToken(usuarioDto.Email);
+                return Ok(token);
             }
             else
             {
@@ -73,43 +71,5 @@ namespace Estacionamento.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
         }
-
-        private UsuarioToken GerarToken(string email)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.UniqueName, email),
-                new Claim("meuPC", "teclado"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            if (email == "admin@localhost")
-            {
-                claims.Add(new Claim("DeletePermission", "true"));
-            }
-
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
-            var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var expiracao = _configuration["TokenConfiguration:ExpireHours"];
-            var expiration = DateTime.UtcNow.AddHours(double.Parse(expiracao));
-
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration["TokenConfiguration:Issuer"],
-                audience: _configuration["TokenConfiguration:Audience"],
-                claims: claims,
-                expires: expiration,
-                signingCredentials: credenciais);
-
-            return new UsuarioToken()
-            {
-                Authenticated = true,
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration,
-                Message = "Token JWT OK"
-            };
-        }
-
     }
 }

@@ -73,6 +73,8 @@ namespace Estacionamento.WebAPI
             builder.Services.AddScoped<IPermanenciaService, PermanenciaService>();
             builder.Services.AddScoped<IPermanenciaRepository, PermanenciaRepository>();
 
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen(c =>
