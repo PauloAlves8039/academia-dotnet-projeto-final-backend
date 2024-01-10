@@ -79,7 +79,24 @@ namespace Estacionamento.WebAPI
 
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Estacionamento de Moto", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Estacionamento de Motos",
+                    Version = "v1",
+                    Description = "WebAPI para gerenciamento de um sistema de estacionamento de motos",
+                    TermsOfService = new Uri("https://github.com/PauloAlves8039"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Paulo Alves",
+                        Email = "pj38alves@gmail.com",
+                        Url = new Uri("https://github.com/PauloAlves8039")
+                    },
+                    License = new OpenApiLicense 
+                    {
+                        Name = "Paulo Alves",
+                        Url = new Uri("https://github.com/PauloAlves8039")
+                    }
+                }); ;
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
