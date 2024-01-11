@@ -29,7 +29,7 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 
 ## :movie_camera: Vídeo de Demonstração
 
-- Apresentação [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU)
+- Apresentação [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=6eEUoA9NbTg)
 
 ## ✔️ Recursos Utilizados
 
@@ -43,13 +43,6 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 - `Microsoft Identity`
 - `JWT`
 - `Swagger`
-
-## :page_facing_up: Documentações Utilizadas
-
-- [Introdução ao ASP.NET Web API 2 (C#)](https://learn.microsoft.com/pt-br/aspnet/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api)
-- [Introdução ao Identity no ASP.NET Core](https://learn.microsoft.com/pt-br/aspnet/core/security/authentication/identity?view=aspnetcore-8.0&tabs=visual-studio)
-- [Entity Framework Core](https://learn.microsoft.com/pt-br/ef/core/)
-- [JWT](https://jwt.io/)
 
 ## :white_check_mark: Decisões Técnicas
 
