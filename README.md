@@ -27,13 +27,15 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 - ``Operações``: para todas as entidades da aplicação é possível realizar as operações básicas como `consultar listas`, `pesquisar registros individuais`, `cadastrar`, `atualizar` e `excluir`. 
 - ``Segurança``: é permitido o cadastro de novos `usuários` e os processos para `Autenticação` e `Autorização` desses mesmos usuários. 
 
-## :movie_camera: Vídeo de Demonstração
+## :movie_camera: Vídeos de Demonstrações
 
-- Apresentação [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU&t=281s)
+- Apresentação Durante o Desenvolvimento [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=H34bsYdyjhU&t=281s)
+- Apresentação Após o Desenvolvimento [Projeto Estacionamento de Moto](https://www.youtube.com/watch?v=6eEUoA9NbTg&t=489s)
 
 ## ✔️ Recursos Utilizados
 
-- `Arquitetura MVC`
+- `Padrão MVC`
+- `Arquitetura em Camadas`
 - `.NET 6.0`
 - `ASP.NET Core WebAPI`
 - `C#`
