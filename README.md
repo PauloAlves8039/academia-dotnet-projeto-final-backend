@@ -104,6 +104,12 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 
 - A criação de `Testes de Unidade`, durante o treinamento da `UFN` a nossa turma não teve como disciplina a criação de testes de unidade, no qual se trata de um meus principais pontos de interresses que é buscar amadurecimento com essa boa prática que tenho inteção de definri nesse projeto para mais adiante.       
 
+## :floppy_disk: Clonar Repositório
+
+```bash
+git clone https://github.com/PauloAlves8039/academia-dotnet-projeto-final-backend.git
+```
+
 ## Diagrama do Banco de Dados
 
 <p align="center"> <img src="https://github.com/PauloAlves8039/academia-dotnet-projeto-final-backend/blob/master/Recursos/Diagrama/diagrama-estacionamento-de-motos.PNG" /></p>
@@ -112,14 +118,6 @@ Este repositório esta relacionando ao [Projeto Final Frontend](https://github.c
 
 <p align="center"> <img src="https://github.com/PauloAlves8039/academia-dotnet-projeto-final-backend/blob/master/Recursos/Screenshots/webapi.PNG" /></p>
   
-
-
-## :floppy_disk: Clonar Repositório
-
-```bash
-git clone https://github.com/PauloAlves8039/academia-dotnet-projeto-final-backend.git
-```
-
 ## Conclusão
 
 Essa aplicação tem como objetivo oferecer melhorias para o uso de um sistema voltado para uma empresa fictícia que atua com o gerenciamento de um estacionamento de motos, a ideia surgiu por conta de uma necessidade que ocorre em localidades que tenham dificuldades para achar um estacionamento organizado, seguro e que ofereça um serviço com qualidade. 
