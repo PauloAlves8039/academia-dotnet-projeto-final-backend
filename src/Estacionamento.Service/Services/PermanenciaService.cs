@@ -2,6 +2,7 @@
 using Estacionamento.Data.Interfaces;
 using Estacionamento.Model.Models;
 using Estacionamento.Service.Dtos;
+using Estacionamento.Service.Helpers;
 using Estacionamento.Service.Interfaces;
 
 namespace Estacionamento.Service.Services
@@ -10,6 +11,8 @@ namespace Estacionamento.Service.Services
     {
         private readonly IPermanenciaRepository _permanenciaRepository;
         private readonly IMapper _mapper;
+
+        Util utilitario = new Util(); 
 
         public PermanenciaService(IPermanenciaRepository permanenciaRepository, IMapper mapper)
         {
@@ -42,7 +45,7 @@ namespace Estacionamento.Service.Services
 
             await _permanenciaRepository.Add(permanencia);
 
-            await AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Estacionado");
+            await utilitario.AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Estacionado", _permanenciaRepository);
 
             return permanenciaDto;
         }
@@ -51,9 +54,9 @@ namespace Estacionamento.Service.Services
         {
             permanenciaDto.DataSaida ??= DateTime.Now;
 
-            double quantidadeHoras = CalcularQuantidadeHorasPermanencia(permanenciaDto);
+            double quantidadeHoras = utilitario.CalcularQuantidadeHorasPermanencia(permanenciaDto);
 
-            decimal valorTotal = CalcularValorTotal(quantidadeHoras, permanenciaDto.TaxaPorHora);
+            decimal valorTotal = utilitario.CalcularValorTotal(quantidadeHoras, permanenciaDto.TaxaPorHora);
 
             var permanencia = _mapper.Map<Permanencia>(permanenciaDto);
 
@@ -61,7 +64,7 @@ namespace Estacionamento.Service.Services
 
             await _permanenciaRepository.Update(permanencia);
 
-            await AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Retirado");
+            await utilitario.AtualizarEstadoPermanencia(permanencia.CodigoPermanencia, "Retirado", _permanenciaRepository);
 
             return permanenciaDto;
         }
@@ -77,35 +80,5 @@ namespace Estacionamento.Service.Services
 
             await _permanenciaRepository.Delete(codigo);
         }
-
-        private double CalcularQuantidadeHorasPermanencia(PermanenciaDto permanenciaDto)
-        {
-            if (permanenciaDto.DataEntrada == null || permanenciaDto.DataSaida == null)
-            {
-                return 0;
-            }
-
-            TimeSpan diferencaDeHoras = permanenciaDto.DataSaida.Value - permanenciaDto.DataEntrada.Value;
-            return diferencaDeHoras.TotalHours;
-        }
-
-        private async Task AtualizarEstadoPermanencia(int codigoPermanencia, string novoEstado)
-        {
-            var permanenciaExistente = await _permanenciaRepository.GetById(codigoPermanencia);
-
-            if (permanenciaExistente != null)
-            {
-                permanenciaExistente.EstadoPermanencia = novoEstado;
-                await _permanenciaRepository.Update(permanenciaExistente);
-            }
-        }
-
-        private decimal CalcularValorTotal(double quantidadeHoras, decimal taxaPorHora)
-        {
-            decimal valorTotal = (decimal)quantidadeHoras * taxaPorHora;
-
-            return valorTotal;
-        }
-
     }
 }
